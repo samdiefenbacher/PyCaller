@@ -1,0 +1,22 @@
+#body {
+    font-family: Tahoma;
+}
+
+.header {
+    text-align:center;
+}
+
+.col-sm , .row, .container{
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.doge {
+    padding:1%;
+}
+
+.doge:hover {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
