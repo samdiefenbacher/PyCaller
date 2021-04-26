@@ -12,10 +12,6 @@
     border-style: solid;
 }
 
-.doge {
-    margin-top:15% !important;
-}
-
 .doge:hover {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
