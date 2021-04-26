@@ -1,4 +1,5 @@
 
+
 const totalHistory = [];
 const positionHistory = {};
 
@@ -35,8 +36,13 @@ function getDogeTotalOwned(){
     }
 }
 
+function stopcall(){
+    window.location.reload();
+}
+
 // Buy/Sell crypto method
 function call() {
+    console.log("Started Py Caller");
     let fetch = 1;
     while (fetch === 1) {
         fetch = 0;
@@ -44,16 +50,25 @@ function call() {
             console.log("Caller running");
             calculateCall();
             fetch=1;
-        }, 1000);
+        }, 60000);
     }
 }
 
 function calculateCall(){
-    let buyBreakpoint = document.getElementById("doge_buy_breakpoint");
-    let sellBreakpoint = document.getElementById("doge_sell_breakpoint");
+    let buyBreakpoint = document.getElementById("doge_buy_breakpoint").value;
+    let sellBreakpoint = document.getElementById("doge_sell_breakpoint").value;
     let currentDogePrice = document.getElementById("doge_price").value;
 
-
+    if (currentDogePrice <= buyBreakpoint) {
+        buy();
+        console.log("But At: ",currentDogePrice, "Breakpoint: ",buyBreakpoint);
+    }
+    if (currentDogePrice >= sellBreakpoint) {
+        sell();
+        console.log("Sell At: ",currentDogePrice, "Breakpoint: ",sellBreakpoint);
+    }else {
+        console.log("No Buy/Sell: ",currentDogePrice);
+    }
 }
 
 function getBuyingPower(){
@@ -70,39 +85,28 @@ function getBuyingPower(){
 }
 
 function getPositionHistory(){
-    eel.get_position_history()(dogePositionHistoryCallBack = (result) => {
-        let lastPurchaseTotalPrice = result[0].cost_bases[0].direct_cost_basis;
-        let lastPurchaseAmount = result[0].cost_bases[0].direct_quantity;
-
-        positionHistory.index = totalHistory.length
-        positionHistory.lastPurchaseCoinPrice = lastPurchaseTotalPrice / lastPurchaseAmount;
-        positionHistory.lastPurchaseAmount = lastPurchaseAmount;
-        positionHistory.lastPurchaseTotalPrice = lastPurchaseTotalPrice;
-        totalHistory.push({index:positionHistory.index,
-                           lastPurchaseCoinPrice:positionHistory.lastPurchaseCoinPrice,
-                           lastPurchaseAmount:positionHistory.lastPurchaseAmount,
-                           lastPurchaseTotalPrice:positionHistory.lastPurchaseTotalPrice
-        });
-        var table = new Tabulator('#table', {data:totalHistory,
+    eel.get_holdings_history()(dogePositionHistoryCallBack = (result) => {
+        console.log(result);
+        new Tabulator('#table', {data:result,
                                             columns:[
-                                                {title:"totalHistoryIndex #", field: "index"},
-                                                {title:"Last Coin Purchase Price", field: "lastPurchaseCoinPrice"},
-                                                {title:"Last Coin Purchase Quantity", field: "lastPurchaseAmount"},
-                                                {title:"Last Coin Purchase Total Price", field: "lastPurchaseTotalPrice"}
+                                                {title:"State", field: "state"},
+                                                {title:"Side", field: "side"},
+                                                {title:"Avg Purchase Price", field: "average_price"},
+                                                {title:"Quantiy Purchased", field: "quantity"},
+                                                {title:"Total Purchase Price", field: "rounded_executed_notional"},
+                                                {title:"Type", field: "type"}
                                             ],
                                             layout:"fitColumns",
                                         })
     });
 }
 
-eel.expose(buy);
 function buy(){
-    return 1;
+    eel.buy();
 }
 
-eel.expose(sell);
 function sell(){
-    return 1;
+    eel.sell();
 }
 
 function fetchStats(){
