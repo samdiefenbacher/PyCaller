@@ -36,12 +36,12 @@ def get_holdings_history():
     return query_crypto_orders(rbh)
 
 @eel.expose
-def buy():
-    rbh.buy(dogecoin, quantity=1)
+def buy(amt):
+    rbh.buy(dogecoin, quantity=amt)
 
 @eel.expose
-def sell():
-    rbh.sell(dogecoin, quantity=1)
+def sell(amt):
+    rbh.sell(dogecoin, quantity=amt)
 
 def query_crypto_orders(
         rbh,
@@ -62,12 +62,8 @@ def query_crypto_orders(
             orders.sort(key=lambda o: o.created_at, reverse=True)
         return json_crypto
 
-def main():
-    initweb()
 
+initweb()
 
-
-
-main()
 
 

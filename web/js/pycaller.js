@@ -31,6 +31,7 @@ function getDogeTotalOwned(){
                 document.getElementById("doge_number_owned").value = String(result[0].quantity);
                 document.getElementById("doge_value_owned").value = result[0].quantity * document.getElementById("doge_price").value;
             });
+            getPositionHistory();
             fetch=1;
         }, 1000);
     }
@@ -50,7 +51,7 @@ function call() {
             console.log("Caller running");
             calculateCall();
             fetch=1;
-        }, 60000);
+        }, 20000);
     }
 }
 
@@ -60,11 +61,11 @@ function calculateCall(){
     let currentDogePrice = document.getElementById("doge_price").value;
 
     if (currentDogePrice <= buyBreakpoint) {
-        buy();
+        buy(document.getElementById("doge_buysell_quantity").value);
         console.log("But At: ",currentDogePrice, "Breakpoint: ",buyBreakpoint);
     }
     if (currentDogePrice >= sellBreakpoint) {
-        sell();
+        sell(document.getElementById("doge_buysell_quantity").value);
         console.log("Sell At: ",currentDogePrice, "Breakpoint: ",sellBreakpoint);
     }else {
         console.log("No Buy/Sell: ",currentDogePrice);
@@ -101,21 +102,17 @@ function getPositionHistory(){
     });
 }
 
-function buy(){
-    eel.buy();
+function buy(amt){
+    eel.buy(amt);
 }
 
-function sell(){
-    eel.sell();
+function sell(amt){
+    eel.sell(amt);
 }
 
 function fetchStats(){
     getDogeMarketPrice();
     getDogeTotalOwned();
     getBuyingPower();
-
-    if (totalHistory[0] == null){
-        getPositionHistory();
-    }
-
+    getPositionHistory();
 }

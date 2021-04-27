@@ -43,9 +43,11 @@
                 <label>Stop PyCaller:</label>
                 <button onclick="stopcall()" class="btn btn-danger">Stop</button><br>
                 <label>Buy At:</label>
-                <input id="doge_buy_breakpoint" type="number"><br>
+                <input id="doge_buy_breakpoint" type="number" placeholder="0.00"><br>
                 <label>Sell At:</label>
-                <input id="doge_sell_breakpoint" type="number"><br>
+                <input id="doge_sell_breakpoint" type="number" placeholder="1.00"><br>
+                <label>Call Quantity:</label>
+                <input id="doge_buysell_quantity" placeholder="1" type="number"><br>
                 <br>
                 <label>Buy on the spot</label> <br>
                 <button onclick="buy(document.getElementById('manual-buy').value)">BUY</button>
